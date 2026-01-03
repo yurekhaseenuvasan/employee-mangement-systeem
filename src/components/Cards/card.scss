@@ -1,0 +1,104 @@
+@use '../../styles/varaiables' as *;
+
+.employee-card{
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    text-align: center;
+   
+    img{
+        border-radius: 50%;
+        width:200px;
+
+    }
+    .card-header{
+        background: linear-gradient(90deg, #0A1F44, #1E3A8A);
+        border-radius: none;
+       
+    }
+    .card-footer{
+        background-color: rgb(238 246 245);
+    }
+}
+.error-card{
+     background: linear-gradient(90deg, #0A1F44, #1E3A8A);
+        font-weight: bold;
+        //color: white;
+}
+.btn-actions{
+    display: flex;
+    gap:10px;
+    .btn{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+  
+}
+
+
+.view-btn{
+    background-color:#1E3A8A;
+    //border:2px solid  $primary;
+    //color:$primary;
+    &:hover{
+         //background:linear-gradient(90deg,#06275d,#2563EB);
+         background: unset;
+         background-color: lighten(#0A1F44,40%);
+       color:white;
+    
+    }
+    &:active,&:focus{
+        background-color:lighten( #06275d,20%);
+        box-shadow: none;
+    }
+    
+}
+.edit-btn{
+    background-color:#10B981;
+    &:hover{
+        background-color: darken(#10B981, 20%);
+        color:white;
+    }
+    
+}
+.delete-btn{
+    background-color: $danger;
+    &:hover{
+        background-color: darken($danger, 20%);
+    }
+    
+}
+.view-card .card{
+    width:100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    @media(min-width:768px){
+       width:75%;
+}
+}
+.view-emp-details{
+    display: flex;
+    gap:20px;
+    align-items: center;
+    @media(max-width:768px){
+        flex-direction: column;
+    }
+    img{
+        border-radius: 50%;
+    }
+    @media (min-width:768px){
+      
+    .grid{
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        gap:10px 40px;
+    }
+}
+}
+.card-col{
+    margin-bottom:10px;
+    .card{
+        height:100%;
+    }
+    .card-header{
+        height :100%;
+    }
+}
