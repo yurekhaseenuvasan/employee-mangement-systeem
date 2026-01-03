@@ -4,12 +4,16 @@
   "main": "index.js",
   "scripts": {
    
-    "start": "json-server --watch db.json --port 5000"
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "json-server": "^1.0.0-beta.3"
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "json-server": "^1.0.0-beta.3",
+    "mongoose": "^9.1.1",
+    "nodemon": "^3.1.11"
   }
 }
