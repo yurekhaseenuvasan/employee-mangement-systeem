@@ -12,13 +12,21 @@ const ViewEmpDetails = () => {
   const fetchEmployeeByid = async () => {
     try {
       setloading(true);
-      const response = await fetch(`http://localhost:5000/employees/${empid}`);
+      const response = await fetch(`http://localhost:5000/api/employees/${empid}`);
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
-        setEmployee(data);
+        setEmployee({
+          id: data._id,
+          name: data.name,
+          position: data.position,  
+          department: data.department.name,
+          email: data.email,
+          location: data.location,
+          phone: data.phone,
+          salary: data.salary,
+          photo: data.photo
+        });
         setloading(false);
-        console.log(employee);
       }
     } catch (err) {
       console.log("Error while fetching employee details", err);
@@ -31,12 +39,13 @@ const ViewEmpDetails = () => {
   }, []);
   return (
     <>
-      <Loading loading={loading} />
+    {employee.length===0 && <Loading loading={loading} />}
       {error && (
         <div className="card text-center w-50 text-bold p-5 m-auto">
           {error.message}
         </div>
       )}
+    
       <div className="container mt-3 view-card ">
         <div className="row">
           <div className="col">
@@ -47,7 +56,7 @@ const ViewEmpDetails = () => {
               <div className="card-body d-flex view-emp-details">
                 <div>
                   <img
-                    src={employee.photo?employee.photo:"https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-user-avatar-placeholder-black-png-image_3918427.jpg"}
+                    src={employee.photo}
                     alt={employee.name}
                   />
                 
@@ -85,6 +94,7 @@ const ViewEmpDetails = () => {
           </div>
         </div>
       </div>
+      
     </>
   );
 };

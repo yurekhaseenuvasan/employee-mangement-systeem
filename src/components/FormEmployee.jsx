@@ -11,6 +11,7 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
     phone: "",
     salary: "",
   });
+  const[departments,setDepartments]=useState([]);
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
   const[photoPreview,setPhotoPreview]=useState("");
@@ -27,8 +28,19 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
+  const getDepartment=async()=>{
+    try{
+      const res=await fetch("http://localhost:5000/api/departments/alldept");
+      const data=await res.json();
+      setDepartments(data);
+    }
+    catch(err){
+      console.error("Error fetching departments:",err);
+    }
+  }
  
   useEffect(()=>{
+    getDepartment();
     if(mode==="edit" && employeeData){
         setState({
         name: employeeData.name || "",
@@ -41,6 +53,7 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
         })
         setPhotoPreview(employeeData.photo);
     }
+
 
   },[mode,employeeData])
 
@@ -58,7 +71,6 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
         onSubmit(payload);
     }
   };
-  console.log(state);
   return (
     <div className="card  mx-auto form-card mb-5">
       <div className="card-header">
@@ -90,13 +102,23 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
           </div>
           <div className="mb-3">
             <label className="form-label">Department:</label>
-            <input
+           {/*  <input
               type="text"
               className="form-control"
               onChange={handleChange}
               value={state.department}
               name="department"
-            />
+            /> */}
+            <select
+              className="form-select mt-2 d-block form-control"
+              name="department" value={state.department} onChange={handleChange}>
+                <option value="">Select Department</option>
+                {departments.map((dept) => (
+                  <option key={dept._id} value={dept._id} className="">
+                    {dept.name}
+                  </option>
+                ))}
+            </select>
           </div>
           <div className="mb-3">
             <label className="form-label">Email Address:</label>

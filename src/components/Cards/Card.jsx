@@ -10,11 +10,24 @@ const Card = ({search}) => {
   async function fetchApi() {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5000/employees");
+      const response = await fetch("http://localhost:5000/api/employees/allemployees");
       const data = await response.json();
-      //console.log(data);
       if (response.ok) {
-        setEmployees(data);
+        const loadedarr=[];
+        data.forEach((item)=>{
+          loadedarr.push({
+            id:item._id,
+            name:item.name,
+            position:item.position,
+            department:item.department.name,
+            email:item.email,
+            location:item.location,
+            phone:item.phone,
+            salary:item.salary,
+            photo:item.photo
+          });
+        });
+        setEmployees(loadedarr);
         setLoading(false);
       }
     } catch (err) {
@@ -26,7 +39,6 @@ const Card = ({search}) => {
   useEffect(() => {
     fetchApi();
   }, []);
-  console.log(search)
   const deleteHandler=async(id)=>{
     try{
       const response=await fetch(`http://localhost:5000/employees/${id}`,{
@@ -44,7 +56,7 @@ const Card = ({search}) => {
      // setLoading(false);
     }
   }
-  const filteredEmployees=employees.filter((employee)=>
+  const filteredEmployees=employees?.filter((employee)=>
      employee.name.toLowerCase().includes(search.toLowerCase())
   );
  
