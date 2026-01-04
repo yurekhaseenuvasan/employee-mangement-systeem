@@ -61,7 +61,7 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
     e.preventDefault();
     const payload = {
       ...state,
-      photo: photoPreview ? photoPreview : employeeData.photo,
+      photo: photoPreview ? photoPreview :employeeData.photo,
     };
     
     if(mode=="edit"){

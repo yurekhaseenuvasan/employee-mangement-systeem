@@ -9,12 +9,12 @@ const deptRoutes=require('./routes/deptRoutes');
 
 //configuring dotenv
 dotenv.config({path:path.resolve(__dirname, 'config.env')});
-const app=express();
+const app=express();//
 
 //middleware
 app.use(express.json());
 app.use(cors());
-app.use(express.urlencoded({extended:true}));
+//app.use(express.urlencoded({extended:true}));
 app.use('/api/employees',routers);
 app.use('/api/departments',deptRoutes);
 

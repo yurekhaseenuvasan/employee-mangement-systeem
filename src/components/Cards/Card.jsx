@@ -41,7 +41,7 @@ const Card = ({search}) => {
   }, []);
   const deleteHandler=async(id)=>{
     try{
-      const response=await fetch(`http://localhost:5000/employees/${id}`,{
+      const response=await fetch(`http://localhost:5000/api/employees/${id}`,{
         method:"DELETE",
       });
       if(response.ok){
@@ -70,7 +70,7 @@ const Card = ({search}) => {
             <div className="card employee-card mb-3 ">
               <div className=" text-center card-header">
                 <img
-                  src={employee.photo ? employee.photo : "https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-user-avatar-placeholder-black-png-image_3918427.jpg"}
+                  src={employee.photo ? employee.photo : "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"}
                   alt={employee.name}
                   className="img-fluid"
                 />

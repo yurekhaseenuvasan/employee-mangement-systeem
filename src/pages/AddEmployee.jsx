@@ -7,16 +7,17 @@ const AddEmployee = () => {
   const navigate=useNavigate();
   const onSubmit=(state)=>{
      try{
-       const response=fetch("http://localhost:5000/api/employees",{
+       const response=fetch("http://localhost:5000/api/employees/add",{
         method:"POST",
         headers:{   
             "Content-Type":"application/json"
         },
         body:JSON.stringify(state)
        });
-     
+    
         alert("Employee Added Successfully");
         navigate('/')
+     
     }    catch(err){
         console.log("Error while adding employee",err);
        }

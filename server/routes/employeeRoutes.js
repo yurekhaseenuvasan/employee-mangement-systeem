@@ -68,4 +68,14 @@ router.put("/:id", async (req, res) => {
       .json({ message: `Error while updating employee with id ${id}` });
   }
 });
+//delete employee by id
+router.delete('/:id',async(req,res)=>{
+    const id=req.params.id;
+    try{
+        const deletedEmployee=await Employee.findByIdAndDelete(id);
+        res.status(200).json(deletedEmployee);
+    } catch (err) {
+        res.status(500).json({ message: `Error while deleting employee with id ${id}` });
+    }
+})
 module.exports = router;
