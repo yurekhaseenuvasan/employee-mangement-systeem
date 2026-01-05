@@ -14,10 +14,11 @@ const app=express();//
 //middleware
 app.use(express.json());
 app.use(cors());
-//app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:true}));
 app.use('/api/employees',routers);
 app.use('/api/departments',deptRoutes);
 
+app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
 
 //monogb connection
 const mongostring=process.env.DATABASE_URL

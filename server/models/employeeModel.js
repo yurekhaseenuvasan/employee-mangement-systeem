@@ -40,7 +40,7 @@ const employeeSchema=new mongoose.Schema({
     },
     photo:{
         type:String,
-        default:'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png',
+        default:'http://localhost:5000/uploads/Profile-PNG-File.png',
     }
 });
 module.exports=mongoose.model('Employee',employeeSchema);

@@ -56,7 +56,7 @@ const ViewEmpDetails = () => {
               <div className="card-body d-flex view-emp-details">
                 <div>
                   <img
-                    src={employee.photo}
+                    src={employee.photo? `http://localhost:5000/uploads/${employee.photo}` : "http://localhost:5000/uploads/Profile-PNG-File.png"}
                     alt={employee.name}
                   />
                 

@@ -20,22 +20,19 @@ const EditEmployee = () => {
   }, []);
 
   const onSubmit = async (state) => {
+    //console.log(state)
     try {
       const response = await fetch(
         `http://localhost:5000/api/employees/${id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(state),
+          body: state
         }
       );
-      if (!response.ok) {
-        throw new Error("Failed to update employee");
-      }
+      if(response.ok){
       navigate("/");
       alert("Employee Updated Successfully");
+      }
     } catch (err) {
       console.log("Error while updating employee", err);
     }

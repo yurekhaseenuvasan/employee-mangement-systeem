@@ -5,22 +5,22 @@ import { useNavigate } from 'react-router-dom';
 
 const AddEmployee = () => {
   const navigate=useNavigate();
-  const onSubmit=(state)=>{
+  const onSubmit=async(state)=>{
+    //console.log(state);
      try{
-       const response=fetch("http://localhost:5000/api/employees/add",{
+       const response=await fetch("http://localhost:5000/api/employees/add",{
         method:"POST",
-        headers:{   
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify(state)
+        body:state
        });
-    
+       //await response;
+        if(response.ok){
         alert("Employee Added Successfully");
         navigate('/')
+        }
      
     }    catch(err){
         console.log("Error while adding employee",err);
-       }
+       } 
   }
   return (
     <div className='container mt-3'>

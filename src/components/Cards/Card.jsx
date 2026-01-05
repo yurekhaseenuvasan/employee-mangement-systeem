@@ -70,7 +70,7 @@ const Card = ({search}) => {
             <div className="card employee-card mb-3 ">
               <div className=" text-center card-header">
                 <img
-                  src={employee.photo ? employee.photo : "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"}
+                  src={ employee.photo ? `http://localhost:5000/uploads/${employee.photo}` : "http://localhost:5000/uploads/Profile-PNG-File.png" }
                   alt={employee.name}
                   className="img-fluid"
                 />

@@ -11,65 +11,81 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
     phone: "",
     salary: "",
   });
-  const[departments,setDepartments]=useState([]);
+  const [departments, setDepartments] = useState([]);
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
-  const[photoPreview,setPhotoPreview]=useState("");
+  const [photoPreview, setPhotoPreview] = useState("");
   const handlePhotoChange = (e) => {
-    const file=e.target.files[0];
-    const reader=new FileReader();
+    const file = e.target.files[0];
+    //converting to base64 string
+    /*  const reader=new FileReader();
     reader.onloadend=()=>{
         setPhotoPreview(reader.result);
     }
-    reader.readAsDataURL(file);
-    //setPhoto(file);
+    reader.readAsDataURL(file); */
+    setPhotoPreview(URL.createObjectURL(file));
+    setPhoto(file);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
-  const getDepartment=async()=>{
-    try{
-      const res=await fetch("http://localhost:5000/api/departments/alldept");
-      const data=await res.json();
+  const getDepartment = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/departments/alldept");
+      const data = await res.json();
       setDepartments(data);
+    } catch (err) {
+      console.error("Error fetching departments:", err);
     }
-    catch(err){
-      console.error("Error fetching departments:",err);
-    }
-  }
- 
-  useEffect(()=>{
+  };
+  console.log("Employee Data in FormEmployee:", employeeData._id);
+  useEffect(() => {
     getDepartment();
-    if(mode==="edit" && employeeData){
-        setState({
+    if (mode === "edit" && employeeData) {
+      setState({
         name: employeeData.name || "",
         position: employeeData.position || "",
-        department: employeeData.department || "",    
+        department: employeeData.department || "",
         email: employeeData.email || "",
         location: employeeData.location || "",
         phone: employeeData.phone || "",
         salary: employeeData.salary || "",
-        })
-        setPhotoPreview(employeeData.photo);
+      });
+      setPhotoPreview(employeeData.photo);
     }
-
-
-  },[mode,employeeData])
+  }, [mode, employeeData]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const payload = {
+    //for json we need to pass photo and state separately
+    /* const payload = {
       ...state,
-      photo: photoPreview ? photoPreview :employeeData.photo,
-    };
-    
-    if(mode=="edit"){
-        onSubmit({...payload,id:employeeData.id});
+      photo: photoPreview ? photoPreview :employeeData.photo ? employeeData.photo : null,
+    }; */
+    const formData = new FormData();
+    formData.append("name", state.name);
+    formData.append("position", state.position);
+    formData.append("department", state.department);
+    formData.append("email", state.email);
+    formData.append("location", state.location);
+    formData.append("phone", state.phone);
+    formData.append("salary", state.salary);
+    if (photo) {
+      formData.append("photo", photo);
+    }
+    //if use json then we need to pass id ,no ned for formdata
+    /* if(mode=="edit"){
+        onSubmit({ id: employeeData._id, formData});
     }
     else{
-        onSubmit(payload);
-    }
+       // onSubmit(formData);
+    } */
+    onSubmit(formData);
+    //outputing to see values of formdata
+    /* for(let pair of formData.entries()){
+        console.log(pair[0]+ ', ' + pair[1]); 
+    } */
   };
   return (
     <div className="card  mx-auto form-card mb-5">
@@ -79,7 +95,7 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
         </h4>
       </div>
       <div className="card-body">
-        <form>
+        <form encType="multipart/form-data">
           <div className="mb-3">
             <label className="form-label">Name:</label>
             <input
@@ -102,7 +118,7 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
           </div>
           <div className="mb-3">
             <label className="form-label">Department:</label>
-           {/*  <input
+            {/*  <input
               type="text"
               className="form-control"
               onChange={handleChange}
@@ -111,13 +127,16 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
             /> */}
             <select
               className="form-select mt-2 d-block form-control"
-              name="department" value={state.department} onChange={handleChange}>
-                <option value="">Select Department</option>
-                {departments.map((dept) => (
-                  <option key={dept._id} value={dept._id} className="">
-                    {dept.name}
-                  </option>
-                ))}
+              name="department"
+              value={state.department}
+              onChange={handleChange}
+            >
+              <option value="">Select Department</option>
+              {departments.map((dept) => (
+                <option key={dept._id} value={dept._id} className="">
+                  {dept.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="mb-3">
@@ -151,11 +170,21 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
             />
           </div>
           <div className="mb-3">
-             {photoPreview&& <img src={photoPreview} alt="Preview" width={120} height={120} style={{'objectFit':'cover'}} />}
+            {photoPreview && (
+              <img
+                src={photoPreview}
+                alt="Preview"
+                width={120}
+                height={120}
+                style={{ objectFit: "cover" }}
+              />
+            )}
           </div>
-       
+
           <div className="mb-3">
-            <label className="form-label">{mode === "edit" ? "Update Image:" : "Image:"}</label>
+            <label className="form-label">
+              {mode === "edit" ? "Update Image:" : "Image:"}
+            </label>
             <input
               type="file"
               accept="image/*"
