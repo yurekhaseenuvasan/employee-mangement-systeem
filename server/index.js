@@ -4,8 +4,10 @@ const dotenv=require('dotenv');
 const multer=require('multer');
 const cors=require('cors');
 const path=require('path');
-const routers=require('./routes/employeeRoutes');
-const deptRoutes=require('./routes/deptRoutes');
+const routers=require('./controllers/employeeController');
+//const deptRoutes=require('./controllers/deptController');
+const deptRoutes=require('./controllers/deptController')
+const statusRoutes=require('./controllers/statusController');
 
 //configuring dotenv
 dotenv.config({path:path.resolve(__dirname, 'config.env')});
@@ -17,6 +19,7 @@ app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use('/api/employees',routers);
 app.use('/api/departments',deptRoutes);
+app.use('/api/status',statusRoutes);
 
 app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
 

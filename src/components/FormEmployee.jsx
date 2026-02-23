@@ -39,7 +39,7 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
       console.error("Error fetching departments:", err);
     }
   };
-  console.log("Employee Data in FormEmployee:", employeeData._id);
+  //console.log("Employee Data in FormEmployee:", employeeData._id);
   useEffect(() => {
     getDepartment();
     if (mode === "edit" && employeeData) {

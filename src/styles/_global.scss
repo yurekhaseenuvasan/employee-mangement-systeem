@@ -58,7 +58,7 @@ div {
 
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
     background-color: $bg-color;
     color: $text-color;
 }
@@ -71,44 +71,8 @@ body {
     list-style: none;
 }
 
-.btn {
-    color: white
-}
-
-.add-btn {
-    display: flex;
-    align-items: center;
 
 
-    justify-content: flex-start;
-
-    gap: 0.75rem;
-
-    width: 100%;
-
-    max-width: 100%;
-
-    box-sizing: border-box;
-
-
-    flex-wrap: wrap;
-
-    @media screen and (max-width: 768px) {
-        flex-direction: column;
-        /* stack on mobile */
-
-        /* make children full-width neatly */
-        a {
-            width: 50%;
-
-        }
-    }
-
-    a {
-        gap: 5px;
-
-    }
-}
 
 .btn-primary {
     background-color: $primary;
@@ -170,9 +134,7 @@ img {
 
 }
 
-.btn {
-    width: 160px !important;
-}
+
 
 .cancel-btn {
     background-color: white;
@@ -182,5 +144,44 @@ img {
     &:hover {
         background-color: darken(gray, 20%);
         color: white;
+    }
+}
+.txt-primary{
+    color: $primary;
+    font-weight: 600;
+}
+ .icon-gap {
+    gap: 16px;
+}
+.btn{
+    width:fit-content;
+    padding:10px 20px;
+    font-size: 14px;
+    font-weight:500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+     border: none;
+}
+.add-gradient{
+    background: linear-gradient(90deg, $primary, $secondary) !important;
+    color: white !important;
+    transition: 0.3s ease;
+
+    &:hover {
+        transform:translateY(-2px);
+        box-shadow: 0 10px 20px rgba(99,102,241,0.25);
+   
+    }
+}
+.view-gradient{
+    background: $view-btn;
+    color:$primary !important;
+    transition: 0.3s ease;
+
+    &:hover {
+        background: $view-hover;
+         transform:translateY(-2px);
+         
     }
 }

@@ -3,26 +3,21 @@ const multer = require("multer");
 const router = express.Router();
 const Employee = require("../models/employeeModel");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-const upload = multer({ storage: storage });
+
 //get employee list
-router.get("/allemployees", async (req, res) => {
+exports.allemp=async (req, res) => {
   try {
     const employees = await Employee.find({}).populate("department");
+    if(!employees || employees.length === 0)    {
+      return res.status(404).json({message:"No employees found"});
+    }
     res.status(200).json(employees);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+};
 //get employee by id
-router.get("/:id", async (req, res) => {
+exports.empById=async (req, res) => {
   const id = req.params.id;
   try {
     const employee = await Employee.findById(id).populate("department");
@@ -32,9 +27,13 @@ router.get("/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: `No employee found with id ${id}` });
   }
-});
+};
 //add new employee
-router.post("/add", upload.single("photo"), async (req, res) => {
+exports.addEmp=async (req, res) => {
+  const exisitingEmployee = await Employee.findOne({ email: req.body.email });
+  if (exisitingEmployee) {
+    return res.status(400).json({ message: "Employee with this email already exists" });
+  }
   const employeeData = new Employee({
     name: req.body.name,
     position: req.body.position,
@@ -44,6 +43,7 @@ router.post("/add", upload.single("photo"), async (req, res) => {
     salary: req.body.salary,
     phone: req.body.phone,
     photo: req.file ? req.file.filename : null,
+   
   });
   console.log("Received employee data:", employeeData);
   try {
@@ -53,9 +53,9 @@ router.post("/add", upload.single("photo"), async (req, res) => {
     console.error("Error while saving employee:", err);
     res.status(500).json({ message: err.message });
   }
-});
+};
 //update employee by id
-router.put("/:id", upload.single("photo"), async (req, res) => {
+exports.updateEmp=async (req, res) => {
   const id = req.params.id;
   try {
     const employee = await Employee.findById(id);
@@ -89,9 +89,9 @@ router.put("/:id", upload.single("photo"), async (req, res) => {
       .status(500)
       .json({ message: `Error while updating employee with id ${id}` });
   }
-});
+};
 //delete employee by id
-router.delete("/:id", async (req, res) => {
+exports.deleteEmp=async (req, res) => {
   const id = req.params.id;
   try {
     const employee = await Employee.findById(id);
@@ -107,5 +107,5 @@ router.delete("/:id", async (req, res) => {
       .status(500)
       .json({ message: `Error while deleting employee with id ${id}` });
   }
-});
-module.exports = router;
+};
+

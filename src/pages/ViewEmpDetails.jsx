@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
-import Error from "../components/Error";
+import ErrorComponent from "../components/ErrorComponent";
 
 const ViewEmpDetails = () => {
   const empid = useParams().id;

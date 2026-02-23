@@ -7,6 +7,7 @@ import AddEmployee from './pages/AddEmployee';
 import { Routes, Route } from 'react-router-dom';
 import EditEmployee from './pages/EditEmployee';
 import ViewEmpDetails from './pages/ViewEmpDetails';
+import ViewAllEmployees from './pages/ViewAllEmployees';
 /* const router=createBrowserRouter({
 
     path: "/", element: <Homepage />,
@@ -24,6 +25,7 @@ function App() {
       <Routes>
            <Route path='/' element={<Homepage/>}> </Route>
           <Route path='add' element={<AddEmployee/>}/>
+          <Route path='viewall' element={<ViewAllEmployees/>}/>
           <Route path='/edit/:id' element={<EditEmployee/>}></Route>
           <Route path='view/:id' element={<ViewEmpDetails/>}></Route>
       </Routes>

@@ -1,4 +1,4 @@
 @use '../../styles/varaiables' as *;
 .navbar-container{
-    background: $primary;
+    background: linear-gradient(90deg, $primary, $secondary);
 }

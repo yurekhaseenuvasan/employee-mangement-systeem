@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AddEmployee = () => {
   const navigate=useNavigate();
+  const[errors,setError]=React.useState("");
   const onSubmit=async(state)=>{
     //console.log(state);
      try{
@@ -12,21 +13,30 @@ const AddEmployee = () => {
         method:"POST",
         body:state
        });
+       const data=await response.json();
+       if(!response.ok){
+        throw new Error(data.message || "Failed to add employee");
+       }
        //await response;
-        if(response.ok){
+     
         alert("Employee Added Successfully");
         navigate('/')
-        }
+        setError("");
+        
      
     }    catch(err){
-        console.log("Error while adding employee",err);
+         console.log("Error while adding employee",err);
+         setError(err.message);
        } 
   }
+  console.log(errors)
   return (
     <div className='container mt-3'>
       <div className='row'>
         <div className='col'>
          <FormEmployee onSubmit={onSubmit}/>
+         {/* Display error message if there are any errors during form submission modal */}
+          {errors && <p className='text-danger mt-2'>{errors  }</p>}
         </div>
       </div>
     </div>

@@ -41,6 +41,20 @@ const employeeSchema=new mongoose.Schema({
     photo:{
         type:String,
         default:'http://localhost:5000/uploads/Profile-PNG-File.png',
+    },
+    password:{
+        type:String,
+        select:false,
+    },
+    role:{
+        type:String,
+        enum:['employee','admin'],
+        default:'employee'
+    },
+    status:{
+        type:String,
+        enum:['active','inactive'],
+        default:'active'
     }
 });
 module.exports=mongoose.model('Employee',employeeSchema);

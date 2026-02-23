@@ -1,17 +1,16 @@
 const express=require('express');
-const router=express.Router();;
 const departmentModal=require('../models/deptModel');
-
-router.get('/alldept',async(req,res)=>{
+const router=express.Router();
+exports.allDept=async(req,res)=>{
     try{
         const data=await departmentModal.find({});
         res.status(200).json(data);
     }catch(err){
         res.status(500).json({message:err.message});
     }
-});
+};
 
-router.post('/add-dept',async(req,res)=>{
+exports.addDept=async(req,res)=>{
     const data=new departmentModal({
         name:req.body.name
     });
@@ -21,5 +20,4 @@ router.post('/add-dept',async(req,res)=>{
     }catch(err){
         res.status(500).json({message:err.message});
     }
-});
-module.exports=router;
+};
