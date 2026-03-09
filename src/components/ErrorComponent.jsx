@@ -1,14 +1,14 @@
 import React from "react";
 
-const ErrorComponent   = ({error}) => {
-  console.log(error);
+const ErrorComponent   = ({status,message}) => {
+  console.log({status,message});
   return (
    
-    error && (
+    status && message && (
       <div className="container text-center mt-5">
-        {error.status === "SERVER DOWN" && <img src="https://cdn-icons-png.flaticon.com/512/11119/11119952.png" className="err-img" alt="Server Down" />}
-          <h2 className="text-bold mt-2">{error.status}</h2>
-          <p className="font-italic">{error.message}</p>
+        {status === "SERVER DOWN" && <img src="https://cdn-icons-png.flaticon.com/512/11119/11119952.png" className="err-img" alt="Server Down" />}
+          <h2 className="text-bold mt-2">{status}</h2>
+          <p className="font-italic">{message}</p>
       </div>
     
       )

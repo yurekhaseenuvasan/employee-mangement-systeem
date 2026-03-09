@@ -12,9 +12,7 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
     salary: "",
   });
   const [departments, setDepartments] = useState([]);
-  const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState("");
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     //converting to base64 string
@@ -23,7 +21,7 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
         setPhotoPreview(reader.result);
     }
     reader.readAsDataURL(file); */
-    setPhotoPreview(URL.createObjectURL(file));
+    //setPhotoPreview(URL.createObjectURL(file));
     setPhoto(file);
   };
   const handleChange = (e) => {
@@ -39,7 +37,7 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
       console.error("Error fetching departments:", err);
     }
   };
-  //console.log("Employee Data in FormEmployee:", employeeData._id);
+  console.log("Employee Data in FormEmployee:", employeeData);
   useEffect(() => {
     getDepartment();
     if (mode === "edit" && employeeData) {
@@ -52,7 +50,6 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
         phone: employeeData.phone || "",
         salary: employeeData.salary || "",
       });
-      setPhotoPreview(employeeData.photo);
     }
   }, [mode, employeeData]);
 
@@ -170,9 +167,9 @@ const FormEmployee = ({ onSubmit, mode, employeeData }) => {
             />
           </div>
           <div className="mb-3">
-            {photoPreview && (
+            {employeeData.photo && (
               <img
-                src={photoPreview}
+                src={employeeData.photo ? `http://localhost:5000/uploads/${employeeData.photo}` : "http://localhost:5000/uploads/Profile-PNG-File.png"}
                 alt="Preview"
                 width={120}
                 height={120}

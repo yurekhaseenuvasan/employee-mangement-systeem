@@ -3,7 +3,7 @@ import "./card.scss";
 import { Link } from "react-router-dom";
 const Card = ({ employee, deleteHandler }) => {
   return (
-    <div className="col-md-6 col-lg-4 col-12 card-col " key={employee.id}>
+    <div className="col-md-6 col-lg-4 col-12 card-col " >
       <div className="card employee-card mb-3 ">
         <div className=" text-center card-header">
           <img
@@ -19,25 +19,25 @@ const Card = ({ employee, deleteHandler }) => {
         <div className="card-body justify-content-center">
           <h5 className="">{employee.name}</h5>
           <p className="emp-role"> {employee.position}</p>
-          <p className="card-text">{employee.department}</p>
+          <p className="card-text">{employee.department.name}</p>
           <p className="card-text"> {employee.email}</p>
         </div>
         <div className=" btn-actions">
           <Link
-            to={`/view/${employee.id}`}
+            to={`/view/${employee._id}`}
             className="btn view-btn  btn-sm  "
           >
             <i className="fa-solid fa-eye"></i>View
           </Link>
           <Link
-            to={`/edit/${employee.id}`}
+            to={`/edit/${employee._id}`}
             className="btn edit-btn btn-sm  "
           >
             <i className="fa-solid fa-pen"></i>Edit
           </Link>
           <button
             className="btn delete-btn btn-sm  "
-            onClick={() => deleteHandler(employee.id)}
+            onClick={() => deleteHandler(employee._id)}
           >
             <i className="fa-solid fa-trash"></i>Delete
           </button>

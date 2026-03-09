@@ -5,7 +5,8 @@
     text-align: center;
     margin-top: 55px;
     border-radius: 16px;
-    ;
+
+    transition: all 0.3s ease;
 
 
     .card-header {
@@ -39,12 +40,18 @@
         font-size: 13px;
     }
 
-    transition: 0.3s;
+
 
     &:hover {
         transform: translateY(-6px);
         box-shadow: 0px 14px 30px rgba(0, 0, 0, 0.12);
     }
+
+    &.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
 
 }
 
@@ -94,11 +101,7 @@
 
     }
 
-    &:active,
-    &:focus {
-        //background-color: lighten($view-btn, 20%);
-        //box-shadow: none;
-    }
+
 
 }
 

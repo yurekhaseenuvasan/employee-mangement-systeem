@@ -1,28 +1,32 @@
 import React, { useEffect } from "react";
 import FormEmployee from "../components/FormEmployee";
 import { useParams, useNavigate } from "react-router-dom";
+import ErrorComponent from "../components/ErrorComponent";
+import { getEmployeeById } from "../services/serviceApi";
 
 const EditEmployee = () => {
   const [employeeData, setEmployeeData] = React.useState([]);
-  const[errors,setError]=React.useState("");
+  const[error,setError]=React.useState("");
   const id = useParams().id;
   const navigate = useNavigate();
-  const getEmployeeById = async () => {
+  const fetchEmpById = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/employees/${id}`);
-      const data = await res.json();
-      if(!res.ok){
-        throw new Error(data.message || "Failed to fetch employee data");
-      }
+      const res = await getEmployeeById(id);
+      const data = await res.data;
       setError("");
       setEmployeeData({ ...data, department: data.department._id });
     } catch (err) {
       console.log("Error while fetching employee data", err);
-          setError(err.message);
+          setError({
+        status: err.status || "SERVER DOWN",
+        message:
+          err.message ||
+          "The server is currently unreachable. Please try again later.",
+          });
     }
   };
   useEffect(() => {
-    getEmployeeById();
+    fetchEmpById();
   }, []);
 
   const onSubmit = async (state) => {
@@ -45,7 +49,11 @@ const EditEmployee = () => {
     } catch (err) {
       console.log("Error while updating employee", err);
       //axios->err.response.data.message || err.message
-      setError(err.message);
+      setError({
+        status: err.status || "UPDATE FAILED",
+        message:
+          err.message || "Failed to update employee. Please try again later.",
+      });
     }
   };
 
@@ -58,7 +66,7 @@ const EditEmployee = () => {
             employeeData={employeeData}
             onSubmit={onSubmit}
           />
-          {errors && <p className="text-danger mt-2">{errors}</p>}
+          {error && <ErrorComponent status={error.status} message={error.message} />}
         </div>
       </div>
     </div>

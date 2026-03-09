@@ -1,24 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FormEmployee from '../components/FormEmployee';
 import { useNavigate } from 'react-router-dom';
+import { addEmployee } from '../services/serviceApi';
+import ErrorComponent from '../components/ErrorComponent';
 
 
 const AddEmployee = () => {
   const navigate=useNavigate();
-  const[errors,setError]=React.useState("");
+  const[error,setError]=useState("")
   const onSubmit=async(state)=>{
     //console.log(state);
      try{
-       const response=await fetch("http://localhost:5000/api/employees/add",{
-        method:"POST",
-        body:state
-       });
-       const data=await response.json();
-       if(!response.ok){
-        throw new Error(data.message || "Failed to add employee");
-       }
-       //await response;
-     
+       const response=await addEmployee(state);
+       const data=await response.data;
         alert("Employee Added Successfully");
         navigate('/')
         setError("");
@@ -26,17 +20,22 @@ const AddEmployee = () => {
      
     }    catch(err){
          console.log("Error while adding employee",err);
-         setError(err.message);
+         setError({
+           status: err.status || "SERVER DOWN",
+           message:
+             err.message ||
+             "The server is currently unreachable. Please try again later.",
+         });
        } 
   }
-  console.log(errors)
+ 
   return (
     <div className='container mt-3'>
       <div className='row'>
         <div className='col'>
-         <FormEmployee onSubmit={onSubmit}/>
+          {!error && <FormEmployee onSubmit={onSubmit}/>}
          {/* Display error message if there are any errors during form submission modal */}
-          {errors && <p className='text-danger mt-2'>{errors  }</p>}
+         {error && <ErrorComponent status={error.status} message={error.message} />}
         </div>
       </div>
     </div>
